@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Results - Health Diagnosis Assistant</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        * { cursor: default; }
+        a, button { cursor: pointer; }
+        :root {
+            --medical-blue: #0891b2;
+            --medical-green: #059669;
+            --medical-red: #dc2626;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .medical-card {
+            transition: all 0.3s ease;
+        }
+        .medical-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(8, 145, 178, 0.1);
+        }
+        .pulse-icon {
+            animation: pulse 2s infinite;
+            color: var(--medical-blue);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto">
+            <div class="bg-white shadow-lg rounded-xl overflow-hidden medical-card">
+                <div class="p-6">
+                    <div class="flex items-center justify-center gap-3 mb-6">
+                        <svg class="h-8 w-8 pulse-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <h1 class="text-3xl font-bold text-gray-900">Analysis Results</h1>
+                    </div>
+                    <div class="flex items-center justify-between mb-8">
+                        <div class="flex items-center space-x-4">
+                            <div class="flex items-center text-sm text-medical-blue bg-blue-50 px-3 py-1 rounded-full">
+                                <svg class="h-5 w-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                Analysis Complete
+                            </div>
+                        </div>
+                        <a href="/" class="flex items-center text-medical-blue hover:text-cyan-700 font-medium transition-colors">
+                            <svg class="h-5 w-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z" />
+                            </svg>
+                            Upload Another Image
+                        </a>
+                    </div>
+
+                    <div class="prose max-w-none">
+                        <div class="space-y-6">
+                            <div class="whitespace-pre-wrap text-gray-700 leading-relaxed analysis-content">
+                                {{ analysis | safe }}
+                            </div>
+                        </div>
+                    </div>
+                    <style>
+                        .analysis-content {
+                            font-size: 1rem;
+                            line-height: 1.75;
+                        }
+                        .analysis-content h2 {
+                            font-size: 1.5rem;
+                            font-weight: 600;
+                            margin-top: 2rem;
+                            margin-bottom: 1rem;
+                            color: #1a1a1a;
+                        }
+                        .analysis-content ul {
+                            list-style-type: disc;
+                            padding-left: 1.5rem;
+                            margin: 1rem 0;
+                        }
+                        .analysis-content li {
+                            margin: 0.5rem 0;
+                        }
+                    </style>
+                </div>
+
+                <div class="bg-blue-50 px-6 py-4 mt-6 rounded-b-xl border-t border-blue-100">
+                    <div class="text-sm text-gray-500">
+                        <p class="font-medium mb-2">Important Notice:</p>
+                        <p>This analysis is provided for informational purposes only and should not be considered as professional medical advice. Always consult with a qualified healthcare provider for proper diagnosis and treatment.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

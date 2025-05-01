@@ -1,0 +1,123 @@
+* { cursor: default; }
+a, button, .drop-zone { cursor: pointer; }
+
+:root {
+    --medical-blue: #0891b2;
+    --medical-green: #059669;
+    --medical-red: #dc2626;
+    --medical-light-blue: #e0f2fe;
+    --medical-light-green: #dcfce7;
+}
+
+.drop-zone {
+    border: 2px dashed var(--medical-blue);
+    transition: all 0.3s ease;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to bottom right, var(--medical-light-blue), white);
+}
+
+.drop-zone:hover {
+    border-color: var(--medical-green);
+    background: linear-gradient(to bottom right, var(--medical-light-green), white);
+    transform: scale(1.01);
+    box-shadow: 0 4px 12px rgba(8, 145, 178, 0.1);
+}
+
+.drop-zone.drag-over {
+    border-color: var(--medical-green);
+    background: var(--medical-light-green);
+    transform: scale(1.02);
+}
+
+.medical-card {
+    transition: all 0.3s ease;
+    background: white;
+    border-radius: 1rem;
+    overflow: hidden;
+    border: 1px solid rgba(8, 145, 178, 0.1);
+}
+
+.medical-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(8, 145, 178, 0.15);
+}
+
+.pulse-icon {
+    animation: pulse 2s infinite;
+    color: var(--medical-blue);
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.8; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.analyze-button {
+    background: linear-gradient(135deg, var(--medical-blue), #0e7490);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    width: 100%;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    outline: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.analyze-button:hover {
+    background: linear-gradient(135deg, #0e7490, var(--medical-blue));
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px -4px rgba(8, 145, 178, 0.25);
+}
+
+.analyze-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.3);
+}
+
+.analyze-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.result-section {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.status-badge {
+    background: var(--medical-light-blue);
+    color: var(--medical-blue);
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.status-badge:hover {
+    transform: scale(1.05);
+    background: var(--medical-blue);
+    color: white;
+}
