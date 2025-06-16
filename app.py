@@ -4,19 +4,21 @@ import google.generativeai as genai
 from PIL import Image
 from dotenv import load_dotenv
 
+# Flask app setup
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB
 
-# Ensure upload directory exists
+# Create upload folder if it doesn't exist
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 # Load environment variables
 load_dotenv()
 
-# Configure Gemini API
+# Gemini API key
 genai.configure(api_key=os.getenv('GOOGLE_API_KEY'))
 model = genai.GenerativeModel('models/gemini-2.0-flash-lite')
+
 
 def analyze_medical_image(image_path):
     try:
@@ -36,32 +38,28 @@ def analyze_medical_image(image_path):
         response = model.generate_content([prompt, img])
         text = response.text
 
-        # Format sections with bullet points and clean up markdown
-        sections = text.split('\n')
-        formatted_sections = []
-
-        for line in sections:
-            line = line.strip()
-            # Remove markdown symbols
-            line = line.replace('**', '').replace('*', '')
-            # Clean up any multiple spaces
-            line = ' '.join(line.split())
-
+        # Clean formatting
+        lines = text.split('\n')
+        cleaned = []
+        for line in lines:
+            line = line.strip().replace('**', '').replace('*', '')
             if line:
                 if line.startswith(('1.', '2.', '3.')):
-                    formatted_sections.append('\n' + line)
+                    cleaned.append('\n' + line)
                 else:
                     if not line.startswith('•'):
                         line = '• ' + line
-                    formatted_sections.append(line)
+                    cleaned.append(line)
 
-        return '\n'.join(formatted_sections)
+        return '\n'.join(cleaned)
     except Exception as e:
         return str(e)
+
 
 @app.route('/')
 def index():
     return render_template('index.html')
+
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -76,20 +74,21 @@ def upload_file():
         return jsonify({'error': 'Invalid file type'}), 400
 
     try:
-        # Save file temporarily
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
         file.save(filepath)
 
-        # Analyze image
         analysis = analyze_medical_image(filepath)
-
-        # Clean up
         os.remove(filepath)
 
         return render_template('results.html', analysis=analysis)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-# For Vercel deployment
-def handler(request):
-    return app(request.environ, start_response=lambda status, headers: None)
+
+# Local dev
+if __name__ == '__main__':
+    app.run(debug=True)
+
+# Vercel WSGI handler
+def handler(environ, start_response):
+    return app.wsgi_app(environ, start_response)
