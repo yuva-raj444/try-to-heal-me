@@ -1,21 +1,24 @@
 import os
+import tempfile
 from flask import Flask, render_template, request, jsonify
 import google.generativeai as genai
 from PIL import Image
 from dotenv import load_dotenv
-import tempfile
 
 # Flask app setup
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = tempfile.mkdtemp()  # Safe temp folder for Vercel
+app.config['UPLOAD_FOLDER'] = tempfile.mkdtemp()  # ✅ Use temp folder on Vercel
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB
+
+# ✅ DO NOT create a folder manually. Remove os.makedirs line.
 
 # Load environment variables
 load_dotenv()
-
-# Gemini API key
 genai.configure(api_key=os.getenv('GOOGLE_API_KEY'))
+
+# Gemini model setup
 model = genai.GenerativeModel('models/gemini-2.0-flash-lite')
+
 
 
 def analyze_medical_image(image_path):
