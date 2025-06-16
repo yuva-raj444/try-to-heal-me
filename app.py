@@ -3,14 +3,12 @@ from flask import Flask, render_template, request, jsonify
 import google.generativeai as genai
 from PIL import Image
 from dotenv import load_dotenv
+import tempfile
 
 # Flask app setup
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = 'uploads'
+app.config['UPLOAD_FOLDER'] = tempfile.mkdtemp()  # Safe temp folder for Vercel
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB
-
-# Create upload folder if it doesn't exist
-os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 # Load environment variables
 load_dotenv()
