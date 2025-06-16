@@ -10,16 +10,12 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = tempfile.mkdtemp()  # ✅ Use temp folder on Vercel
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB
 
-# ✅ DO NOT create a folder manually. Remove os.makedirs line.
-
 # Load environment variables
 load_dotenv()
 genai.configure(api_key=os.getenv('GOOGLE_API_KEY'))
 
 # Gemini model setup
 model = genai.GenerativeModel('models/gemini-2.0-flash-lite')
-
-
 
 def analyze_medical_image(image_path):
     try:
@@ -56,11 +52,9 @@ def analyze_medical_image(image_path):
     except Exception as e:
         return str(e)
 
-
 @app.route('/')
 def index():
     return render_template('index.html')
-
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -85,11 +79,6 @@ def upload_file():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-
-# Local dev
+# Local development only
 if __name__ == '__main__':
     app.run(debug=True)
-
-# Vercel WSGI handler
-def handler(environ, start_response):
-    return app.wsgi_app(environ, start_response)
