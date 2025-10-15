@@ -4,8 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google-site-verification" content="-dbUYlWt-oygljQ1ga_V9NF-uukiw3XfbWuWS8UrAfw" />
+  
+  <!-- ✅ Site Name Configuration -->
   <meta name="application-name" content="2 Minute Diagnosis">
+  <meta name="apple-mobile-web-app-title" content="2 Minute Diagnosis">
   <meta property="og:site_name" content="2 Minute Diagnosis">
+  <meta name="author" content="2 Minute Diagnosis">
+  
   <!-- ✅ Website Favicon / Logo -->
   <link rel="icon" type="image/png" href="{{ url_for('static', filename='logo1.png') }}">
   <link rel="apple-touch-icon" href="{{ url_for('static', filename='logo1.png') }}">
@@ -40,15 +45,22 @@
   "@context": "https://schema.org",
   "@type": "WebSite",
   "name": "2 Minute Diagnosis",
+  "alternateName": "2 Minute Diagnosis - AI Health Diagnosis Assistant",
   "url": "https://2mindiagnose.vercel.app/",
   "description": "Upload a medical image and receive a fast, secure AI-powered diagnosis in under 2 minutes.",
   "publisher": {
     "@type": "Organization",
     "name": "2 Minute Diagnosis",
+    "url": "https://2mindiagnose.vercel.app/",
     "logo": {
       "@type": "ImageObject",
       "url": "https://2mindiagnose.vercel.app/static/logo1.png"
     }
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://2mindiagnose.vercel.app/?q={search_term_string}",
+    "query-input": "required name=search_term_string"
   }
 }
 </script>
